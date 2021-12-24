@@ -12,12 +12,16 @@
 <h2>Сервис JsSpa</h2><br>
 Главная страница frontspa/, содержит навигацию(по сервису и между сервисами), выводит лоты полученные по API из сервиса PhpApi.<br>
 <img src="https://github.com/ilyazenQ/PHP.MVC-JS.SPA/blob/main/gitpicture/3.PNG"></img><br>
-<h2>Инструкции</h2><br>
-Для разработки использовался openserver, его настройки:<br>
-
+<h2>Инструкции</h2>
+Для разработки использовался openserver(os), его настройки:<br>
+<img src="https://github.com/ilyazenQ/PHP.MVC-JS.SPA/blob/main/gitpicture/4.PNG"></img><br>
+Доменное имя:<br>
+<img src="https://github.com/ilyazenQ/PHP.MVC-JS.SPA/blob/main/gitpicture/5.PNG"></img><br>
 <br>
-1)Clone this repository to your local or download it. <br>
-2)Please note that PHP 8 is required, use composer update in your directory <br>
-3)Fill the database (https://github.com/dalers/mywind )<br>
-4)Create a .env file by copying variables from example.env Fill in those values in .env file<br>
-5)Create a .htaccess file by copying from htaccess.htaccess.<br>
+1)Скачайте/клонируйте репозиторий (в папку openserver/domains при использовании os)<br>
+Для phpapi:<br>
+2)Используйте composer update в папке с проектом <br>
+3)Заполните БазуДанных (https://github.com/dalers/mywind )<br>
+4)Создайте .env перенеся информацию из example.env<br>
+Для обоих:<br>
+5)Создайте .htaccess перенеся информацию из .htaccess.example<br>
