@@ -17,6 +17,7 @@
 <img src="https://github.com/ilyazenQ/PHP.MVC-JS.SPA/blob/main/gitpicture/4.PNG"></img><br>
 Доменное имя:<br>
 <img src="https://github.com/ilyazenQ/PHP.MVC-JS.SPA/blob/main/gitpicture/5.PNG"></img><br>
+Для JsSpa доменное имя: frontspa/
 <br>
 1)Скачайте/клонируйте репозиторий (в папку openserver/domains при использовании os)<br>
 Для phpapi:<br>
