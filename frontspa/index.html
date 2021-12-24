@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+   <!-- Только CSS -->
+   <link href="style.css" rel="stylesheet">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<!-- Пакет JavaScript с Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</head>
+<body>
+ 
+   <div id="root">
+
+   </div>
+
+   <script>
+     //URI
+     const getUri = document.location.pathname;
+      // api method
+      const api = {
+         get(url) {
+            switch(url) {
+
+            case '/': 
+               fetch('http://phpapi/api/first-products')
+              .then((resp) => resp.json())
+
+              .then(function(data) {
+                console.log(data);
+                state = {
+                    ...state,
+                      lots:data,
+                      title:"Первые десять лотов из nortwind db, получены по API (phpapi/api/first-products)"
+                    }
+                      renderView(state)          
+                 });
+                 break;
+              case '/page-2': 
+               fetch('http://phpapi/api/last-products')
+              .then((resp) => resp.json())
+              .then(function(data) {
+                console.log(data);
+                state = {
+                    ...state,
+                      lots:data,
+                      title:"Последние десять лотов из nortwind db, получены по API (phpapi/api/last-products)"
+                    }
+                      renderView(state)          
+                 });
+                 break;
+
+                 
+
+            }
+         }
+      }
+      // 
+  
+      //state(data)
+      let state = {
+         time:new Date(),
+         lots: null,
+      };
+      // Parse Object to json structure
+   const VDom = {
+       createElement: (type, config, ...children) => {
+    const key = config ? (config.key || null) : null
+    const props = config || {}
+
+    if (children.length === 1) {
+      props.children = children[0]
+    } else {
+      props.children = children
+    }
+
+    return {
+      type,
+      key,
+      props
+    }
+  }
+}
+
+//App page element
+function App ({ state }) {
+  return VDom.createElement('div', { className: 'app container' },
+    VDom.createElement(Header),
+    VDom.createElement(linkToMain),
+    VDom.createElement(Clock, { time: state.time }),
+    VDom.createElement(Title),
+    VDom.createElement(Nav),
+    VDom.createElement(Lots, { lots: state.lots })
+  )
+}
+function Nav() {
+  let isFirstPage = (getUri === '/');
+
+
+  return VDom.createElement('div', { className: 'text-center' }, 
+  VDom.createElement('a', { className: `btn  ${isFirstPage?"btn-success":"btn-primary"}`,  
+  href: '/'}, "Товары 1"),
+  VDom.createElement('a', { className: `btn  ${isFirstPage?"btn-primary":"btn-success"}`,  
+  href: '/page-2'}, "Товары 2"),
+  )
+
+}
+function Title() {
+  return VDom.createElement('h2', { className: 'text-center' }, state.title)
+}
+
+function Header () {
+  return VDom.createElement('header', { className: 'header d-flex ' },
+    VDom.createElement(Logo),
+    VDom.createElement('h1', { className: "h1 mt-3" }, "SPA frontend")
+  )
+}
+
+function Logo () {
+  return VDom.createElement('img', 
+  { className: 'logo',
+   src: 'https://lh3.googleusercontent.com/ogw/ADea4I4TUGGafgyc3doOQsqb8cI3WnImEAMviVkjvX8C=s83-c-mo' }
+   )
+}
+function linkToMain() {
+  return   VDom.createElement('a', { className: `h4`,  
+  href: 'http://phpapi/'}, "Перейти к PhpMVC")
+}
+function Clock ({ time }) {
+  const isDay = time.getHours() >= 7 && time.getHours() <= 21
+
+  return VDom.createElement('div', { className: 'clock d-flex' },
+  VDom.createElement('span', { className: "h2" }, "Время: "),
+  VDom.createElement('span', { className: 'value h2' }, time.toLocaleTimeString()),
+  )
+}
+
+function Loading () {
+  return VDom.createElement('div', { className: 'loading alert alert-primary' }, 'Loading...')
+}
+
+function Lots ({ lots }) {
+  if (lots === null) {
+    return VDom.createElement(Loading)
+  }
+
+  return VDom.createElement('div', { className: 'lots' },
+    lots.map((lot) => VDom.createElement(Lot, { lot, key: lot.id }))
+  )
+}
+      // Lot Before json
+   //   function Lot({lot}) {
+    //     const node = document.createElement('article');
+    //     node.classList.add('lot','card','m-1');
+    //     node.dataset.key = lot.id;
+//
+    //     const price = document.createElement('div');
+    //     price.classList.add('price','card-text');
+    //     price.innerText ="Price " + lot.price;
+     //    node.append(price);
+//
+     //    const name = document.createElement('h1');
+     //    name.classList.add('name','card-title');
+     //    name.innerText = lot.name;
+     //    node.append(name);
+
+         
+      //   const description = document.createElement('p');
+      //   description.classList.add('description','card-text');
+      //   description.innerText = lot.description;
+      //   node.append(description);
+       //  return node;
+     // } 
+
+     //Lot json
+  //   function Lot({lot}) {
+   //      return {
+    //        type:'div',
+    //        key:lot.id,
+    //        props: {
+    //           className:'lot article card m-1',
+    //           children: [ 
+    //              {
+    //                 type:'div',
+    //                 props: {
+    //                    className:'price card-text',
+    //                    children:[
+    //                       lot.price
+   //                     ]
+    //                 }
+    //              },
+     //             {
+     //                type:'h1',
+    //                 props:{
+    //                    className:'name card-title',
+    //                    children:[
+    //                       lot.name
+    //                    ]
+    //                 }
+    //              },
+     //             {
+     //                type:'p',
+     //                props: {
+     //                   className:'description card-text',
+     //                   children:[
+     //                      lot.description,
+     //                   ]
+     //                }
+     //             },
+     //          ]
+     //       }
+     //    }
+     // } 
+     // Lot as object
+function Lot ({ lot }) {
+  return VDom.createElement('article', { className: 'lot article card m-1' },
+    VDom.createElement('div', { className: 'price card-text' },"Код " + lot.product_code),
+    VDom.createElement('h1', {className: 'card-title'},  lot.product_name),
+    VDom.createElement('p', {className: 'card-text'}, "Категория: " + lot.category),
+    VDom.createElement('p', {className: 'card-text'}, "Цена: "+ lot.list_price),
+  )
+}
+
+
+// ##########################
+
+function renderView (state) {
+  render(
+    VDom.createElement(App, { state }),
+    document.getElementById('root')
+  )
+}
+
+renderView(state)
+
+// ##########################
+
+setInterval(() => {
+  state = {
+    ...state,
+    time: new Date()
+  }
+
+  renderView(state)
+}, 1000)
+
+
+api.get(getUri);
+
+// ##########################
+
+function render (virtualDom, realDomRoot) {
+  const evaluatedVirtualDom = evaluate(virtualDom)
+
+  const virtualDomRoot = {
+    type: realDomRoot.tagName.toLowerCase(),
+    props: {
+      id: realDomRoot.id,
+      children: [
+        evaluatedVirtualDom
+      ]
+    },
+  }
+
+  sync(virtualDomRoot, realDomRoot)
+}
+
+function evaluate (virtualNode) {
+  if (typeof virtualNode !== 'object') {
+    return virtualNode
+  }
+
+  if (typeof virtualNode.type === 'function') {
+    return evaluate((virtualNode.type)(virtualNode.props))
+  }
+
+  const props = virtualNode.props || {}
+
+  return {
+    ...virtualNode,
+    props: {
+      ...props,
+      children: Array.isArray(props.children) ? props.children.map(evaluate) : [evaluate(props.children)]
+    }
+  }
+}
+
+function sync (virtualNode, realNode) {
+  // Sync element
+  if (virtualNode.props) {
+    Object.entries(virtualNode.props).forEach(([name, value]) => {
+      if (name === 'key' || name === 'children') {
+        return
+      }
+      if (realNode[name] !== value) {
+        realNode[name] = value
+      }
+    })
+  }
+  if (virtualNode.key) {
+    realNode.dataset.key = virtualNode.key
+  }
+  if (typeof virtualNode !== 'object' && virtualNode !== realNode.nodeValue) {
+    realNode.nodeValue = virtualNode
+  }
+
+  // Sync child nodes
+  const virtualChildren = virtualNode.props ? virtualNode.props.children || [] : []
+  const realChildren = realNode.childNodes
+
+  for (let i = 0; i < virtualChildren.length || i < realChildren.length; i++) {
+    const virtual = virtualChildren[i]
+    const real = realChildren[i]
+
+    // Remove
+    if (virtual === undefined && real !== undefined) {
+      realNode.remove(real)
+    }
+
+    // Update
+    if (virtual !== undefined && real !== undefined && (virtual.type || '') === (real.tagName || '').toLowerCase()) {
+      sync(virtual, real)
+    }
+
+    // Replace
+    if (virtual !== undefined && real !== undefined && (virtual.type || '') !== (real.tagName || '').toLowerCase()) {
+      const newReal = createRealNodeByVirtual(virtual)
+      sync(virtual, newReal)
+      realNode.replaceChild(newReal, real)
+    }
+
+    // Add
+    if (virtual !== undefined && real === undefined) {
+      const newReal = createRealNodeByVirtual(virtual)
+      sync(virtual, newReal)
+      realNode.appendChild(newReal)
+    }
+  }
+}
+
+function createRealNodeByVirtual (virtual) {
+  if (typeof virtual !== 'object') {
+    return document.createTextNode('')
+  }
+  return document.createElement(virtual.type)
+}
+
+   </script>
+
+</body>
+</html>
